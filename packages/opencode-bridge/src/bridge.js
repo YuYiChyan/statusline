@@ -119,7 +119,19 @@ export function createBridge({ readQuota, store = new StateStore(), accounts = {
 
   return {
     tick,
-    status: () => ({ ...status }),
+    async status() {
+      // Another project can own the shared publisher; report its durable success
+      // even when this instance has not acquired the lock since pairing.
+      try {
+        const state = await store.read();
+        if (!state) return { state: 'unpaired', lastPublishedAt: null, error: null };
+        return { ...status,
+          state: status.state === 'unpaired' ? (state.lastPublishedAt ? 'published_elsewhere' : 'waiting') : status.state,
+          lastPublishedAt: state.lastPublishedAt ?? null,
+          pendingPublication: state.pendingPublication === true,
+        };
+      } catch (error) { return { state: 'error', lastPublishedAt: null, error: safeError(error) }; }
+    },
     start() {
       if (timer || disposed) return;
       void tick();

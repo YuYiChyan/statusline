@@ -27,6 +27,10 @@ test('sampling time, not poll time, controls dedupe across restart and locations
       } }) });
     const first = create();
     assert.equal((await first.tick()).state, 'published');
+    const observer = create();
+    assert.equal((await observer.status()).state, 'published_elsewhere');
+    assert.equal((await observer.status()).lastPublishedAt, time);
+    await observer.dispose();
     time += 60000;
     assert.equal((await first.tick()).state, 'unchanged');
     await first.dispose();

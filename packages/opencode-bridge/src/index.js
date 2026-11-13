@@ -32,7 +32,7 @@ export default Plugin.define({
         name: 'statusline_bridge_status',
         description: 'Read local Statusline bridge health, without keys, pairing links or quota values.',
         input: { type: 'object', properties: {}, additionalProperties: false },
-        execute: async () => ({ content: JSON.stringify(bridge.status()) }),
+        execute: async () => ({ content: JSON.stringify(await bridge.status()) }),
       });
     });
     bridge.start();
