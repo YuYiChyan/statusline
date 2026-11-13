@@ -1,6 +1,11 @@
 # macOS
 .DS_Store
 
+# Standalone OpenCode bridge package tooling
+/node_modules/
+/.bridge-verification/
+/*.tgz
+
 # Editor and IDE state
 .idea/
 .vscode/

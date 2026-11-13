@@ -1,0 +1,15 @@
+{
+  "name": "opencode-statusline-bridge",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Lightweight OpenCode Quota to Statusline encrypted mobile bridge",
+  "type": "module",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "git+https://github.com/YuYiChyan/statusline.git" },
+  "exports": { ".": "./packages/opencode-bridge/src/index.js" },
+  "bin": { "statusline-bridge": "./packages/opencode-bridge/src/cli.js" },
+  "files": ["packages/opencode-bridge/src", "packages/opencode-bridge/README.md", "packages/opencode-bridge/README.zh.md", "LICENSE"],
+  "engines": { "node": ">=22.13" },
+  "scripts": { "test": "node --test packages/opencode-bridge/test/*.test.js", "check": "node packages/opencode-bridge/scripts/check.mjs" },
+  "dependencies": { "@opencode/plugin": "2.2.7" }
+}
