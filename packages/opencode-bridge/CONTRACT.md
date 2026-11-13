@@ -69,12 +69,17 @@ this timestamp when provider samples/data are unchanged. Support empty inventory
 
 `quota-rpc.js` exports `QuotaSnapshotRpc` via `Rpc.define` from @opencode/plugin/rpc:
 mirror only `slkiser.opencode-quota.snapshot({})` and `changed` schema; never register
-the mirrored contract and never force provider refresh. Client `ctx.rpc(def).snapshot`
-uses existing cache. All errors should surface generic fixed messages.
+the mirrored contract or call refresh(). Client `ctx.rpc(def).snapshot` returns the
+existing cache and may schedule Quota's normally due background check, subject to
+its own minimum interval and single-flight policy. It is not a pure no-refresh
+operation in Quota 6.2.2. All errors should surface generic fixed messages.
 
 ## Runtime and scope
 
 Default 60-second cache polling, changed-payload publishing; no model calls.
+Missing previously published services remain unavailable with the previous sample
+time until explicitly removed via the bridge's services option. Known service
+IDs/timestamps are private state; provider disappearance alone is not removal.
 No networking before local CLI pairing. Relay errors/backoff leave prior published
 state intact. Persist monotonic sequence before sending to survive crash/retry.
 Multiple project runtimes coordinate using local lock + shared durable dedupe hash.

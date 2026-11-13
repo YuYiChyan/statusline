@@ -350,8 +350,14 @@ export class RelayClient {
   }
 
   async deleteChannel(state) {
-    await this.#request(this.#publisher(state), { method: 'DELETE', token: state.publisherToken,
-      status: 204, empty: true, gone: true });
+    try {
+      await this.#request(this.#publisher(state), { method: 'DELETE', token: state.publisherToken,
+        status: 204, empty: true, gone: true });
+    } catch (error) {
+      // A confirmed expired channel is terminal even before scheduled purging.
+      if (error instanceof RelayError && error.code === 'channelExpired' && error.status === 410) return;
+      throw error;
+    }
   }
 
   async claim(channelId, pairingToken) {

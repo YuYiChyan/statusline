@@ -305,9 +305,10 @@ test('HTTP errors expose only allowlisted codes, fixed messages and bounded Retr
   assert.ok(safeError('httpError')(new RelayError({ toString: () => 'timeout', detail: publisherToken })));
 });
 
-test('delete treats 404 as already gone but does not swallow expiry, timeout or redirects', async () => {
+test('delete accepts gone or explicitly expired channels but rejects other failures', async () => {
   assert.equal(await mocked([json({ error: { code: 'channelNotFound' } }, 404)]).client.deleteChannel(state), undefined);
-  await assert.rejects(mocked([json({ error: { code: 'channelExpired' } }, 410)]).client.deleteChannel(state), safeError('channelExpired', 410));
+  assert.equal(await mocked([json({ error: { code: 'channelExpired' } }, 410)]).client.deleteChannel(state), undefined);
+  await assert.rejects(mocked([json({ error: { code: 'pairingExpired' } }, 410)]).client.deleteChannel(state), safeError('pairingExpired', 410));
   await assert.rejects(mocked([new Response(null, { status: 302 })]).client.deleteChannel(state), safeError('redirect'));
 });
 

@@ -7,6 +7,13 @@
   <p><a href="https://statusline.inmerzion.io/"><strong>Official website</strong></a> · <a href="https://apps.apple.com/app/statusline/id6807851320">App Store</a> · <a href="https://github.com/arvivares/statusline/releases">Downloads</a></p>
 </div>
 
+## OpenCode bridge (this fork)
+
+This fork adds a lightweight community OpenCode Quota → Statusline integration,
+without requiring Desktop Companion. See the [bridge guide](packages/opencode-bridge/README.md)
+or [中文说明](packages/opencode-bridge/README.zh.md) on `feat/opencode-bridge`.
+It is an independent integration; phone/widget hardware acceptance is pending.
+
 <div align="center">
   <a href="https://github.com/arvivares/statusline/actions/workflows/repository-quality.yml"><img src="https://github.com/arvivares/statusline/actions/workflows/repository-quality.yml/badge.svg" alt="Repository quality"></a>
   <a href="https://github.com/arvivares/statusline/actions/workflows/release.yml"><img src="https://github.com/arvivares/statusline/actions/workflows/release.yml/badge.svg" alt="Release pipeline"></a>

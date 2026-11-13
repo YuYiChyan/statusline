@@ -1,7 +1,9 @@
 import { Rpc } from '@opencode/plugin/rpc';
 
-// Read-only mirror of opencode-quota v6.2.2 src/rpc.ts. Never register this
-// definition: Quota owns it. snapshot({}) reads its cache, unlike refresh().
+// Mirror of opencode-quota v6.2.2 src/rpc.ts. Never register this definition:
+// Quota owns it. snapshot({}) returns its cache and may schedule a normally due
+// background check, respecting Quota's own interval and single-flight policy.
+// The bridge never calls refresh() or calls upstream providers directly.
 // The upstream wire checks only the envelope; normalizeQuota validates v6 rows.
 function isRecord(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
